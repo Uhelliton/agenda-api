@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Returns Services API",
+        "description": "API documentation for Returns Service App",
+        "contact": {
+            "email": "sushil@stepfront.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost/api/",
+            "description": "Returns App API"
+        }
+    ],
+    "paths": {
+        "/": {}
+    }
+}
