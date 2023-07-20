@@ -1,12 +1,12 @@
 <?php
-namespace App\Domains\User\Providers;
+namespace App\Domains\Auth\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
 class DomainServiceProvider extends ServiceProvider
 {
     /**
-     * Register all services providers this domains
+     *  Register all services providers this domains
      *
      * @return void
      */

@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Domains\User\Providers;
+namespace App\Domains\Auth\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use App\Domains\User\Http\Routes\Api;
+use App\Domains\Auth\Http\Routes\Api;
 
 class RouteServiceProvider extends ServiceProvider
 {
     /**
      * This namespace is applied to controller routes.
-     *
      * @var string
      */
-    protected $namespace = 'App\Domains\User\Http\Controllers';
+    protected $namespace = 'App\Domains\Auth\Http\Controllers';
 
     /**
      * @return void
@@ -39,7 +38,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         (new Api([
             'prefix' => 'api',
-            'middleware' => ['web'],
+            'middleware' => ['api'],
             'namespace'  => $this->namespace
         ]))->register();
     }

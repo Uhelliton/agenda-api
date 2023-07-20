@@ -172,7 +172,8 @@ return [
         /*
          * Domains Service Providers...
          */
-        App\Domains\User\Providers\DomainServiceProvider::class
+        App\Domains\User\Providers\DomainServiceProvider::class,
+        App\Domains\Auth\Providers\DomainServiceProvider::class,
     ])->toArray(),
 
     /*
