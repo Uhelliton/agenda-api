@@ -1,5 +1,9 @@
 FROM php:8.1-fpm
 
+# Arguments defined in docker-compose.yml
+ARG user=admin
+ARG uid=1000
+
 RUN apt-get update && \
     apt-get install -y \
     locales \
@@ -34,6 +38,12 @@ RUN apt-get install -y wget && \
     mv phpunit-9.3.8.phar /usr/local/bin/phpunit && \
     chmod +x /usr/local/bin/phpunit
 
+
+ # Create system user to run Composer and Artisan Commands
+ RUN useradd -G www-data,root -u $uid -d /home/$user $user
+ RUN mkdir -p /home/$user/.composer && \
+     chown -R $user:$user /home/$user
+
 RUN apt-get upgrade -y \
     && apt-get autoclean \
     && apt-get purge -y \
@@ -43,5 +53,7 @@ RUN apt-get upgrade -y \
     && apt-get autoremove -y
 
 WORKDIR /var/www/html
+
+USER $user
 
 CMD php-fpm

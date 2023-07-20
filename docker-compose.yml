@@ -2,16 +2,18 @@ version: "3.2"
 
 services:
   nginx:
-    image: nginx:alpine
+    image: library/nginx:1.19.3
     restart: always
     tty: true
     depends_on:
       - php
     ports:
-      - 8099:80
+      - 8098:80
+      - 4443:443
     volumes:
-      - ./:/var/www
-      - ./docker/nginx/:/etc/nginx/conf.d/
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./docker/nginx/ssl:/etc/nginx/ssl
     links:
       - php
 
@@ -26,3 +28,22 @@ services:
       - ./docker/php/conf.d:/usr/local/etc/php/conf.d
       - ./:/var/www/html
       - /dev/shm:/dev/shm
+
+  mysql:
+    container_name: agenda-mysql
+    image: mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=${DB_DATABASE:-agenda_dev}
+      - MYSQL_PASSWORD=${DB_PASSWORD:-root}
+    tty: true
+    volumes:
+      - data-mysql:/var/lib/mysql
+    ports:
+      - 3356:3306
+    expose:
+      - 3356
+
+volumes:
+  data-mysql: { }
