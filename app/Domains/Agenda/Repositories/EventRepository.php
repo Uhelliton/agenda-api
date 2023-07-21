@@ -23,9 +23,19 @@ class EventRepository implements EventRepositoryInterface
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll(): \Illuminate\Database\Eloquent\Collection
+    public function getAll()
     {
-        return $this->model->all();
+        return $this->model
+            ->where(function ($query) {
+                $queryInitialDate = request()->query('initialDate', '');
+                $queryFinalDate = request()->query('finalDate', now()->format('Y-m-d'));
+
+                if (!empty($queryInitialDate) && isValidDate($queryInitialDate)) {
+                    $query->whereBetween('start_date', [$queryInitialDate, $queryFinalDate]);
+                }
+            })
+            ->orderBy('id', 'desc')
+            ->paginate();
     }
 
     /**

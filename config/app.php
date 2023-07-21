@@ -175,6 +175,11 @@ return [
         App\Domains\User\Providers\DomainServiceProvider::class,
         App\Domains\Auth\Providers\DomainServiceProvider::class,
         App\Domains\Agenda\Providers\DomainServiceProvider::class,
+
+        /*
+        * Support Service Providers...
+        */
+        App\Support\Providers\HelperServiceProvider::class,
     ])->toArray(),
 
     /*
