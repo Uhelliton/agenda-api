@@ -7,6 +7,8 @@ interface EventRepositoryInterface
 
     public function findById(int $id);
 
+    public function findByStartDate(string $date);
+
     public function create(array $attributes);
 
     public function update(array $attributes, int $id);

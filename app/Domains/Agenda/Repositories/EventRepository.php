@@ -38,6 +38,18 @@ class EventRepository implements EventRepositoryInterface
     }
 
     /**
+     * @param string $date
+     * @return mixed
+     */
+    public function findByStartDate(string $date)
+    {
+        return $this->model->where([
+            'start_date' => $date,
+            'user_id' => $this->authUser->id
+        ])->first();
+    }
+
+    /**
      * @param array $attributes
      * @return mixed
      */
