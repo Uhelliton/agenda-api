@@ -1,6 +1,8 @@
 <?php
 namespace App\Domains\Agenda\Repositories\Interfaces;
 
+use App\Domains\Agenda\Models\Event;
+
 interface EventRepositoryInterface
 {
     public function getAll();

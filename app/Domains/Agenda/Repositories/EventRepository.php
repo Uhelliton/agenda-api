@@ -72,8 +72,9 @@ class EventRepository implements EventRepositoryInterface
     {
         $model = $this->model->find($id);
         $model->fill($attributes);
+        $model->save();
 
-        return $model->save();
+        return $this->findById($id);
     }
 
     /**
@@ -82,8 +83,6 @@ class EventRepository implements EventRepositoryInterface
      */
     public function delete(int $id)
     {
-        $model = $this->model->find($id);
-
-        return $model->delete();
+        return $this->model->find($id)->delete();
     }
 }

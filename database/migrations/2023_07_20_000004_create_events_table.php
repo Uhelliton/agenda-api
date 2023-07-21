@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Domains\Agenda\Models\Event;
 
 return new class extends Migration
 {
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->text('description');
             $table->date('start_date');
             $table->date('due_date');
-            $table->enum('status', ['Aberto', 'Concluido'])->default('Aberto');
+            $table->enum('status', [Event::STATUS_OPEN, Event::STATUS_FINALIZATION])->default(Event::STATUS_OPEN);
 
             $table->unsignedBigInteger('type_id');
             $table->foreign('type_id', 'FkEventType')
