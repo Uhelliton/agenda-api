@@ -26,6 +26,7 @@ class EventController extends Controller
     public function index(): JsonResponse
     {
         $events = $this->eventRepository->getAll();
+
         return response()->json($events);
     }
 
@@ -86,6 +87,5 @@ class EventController extends Controller
 
         $eventDelete = $this->eventRepository->delete($id);
         return response()->json($eventDelete);
-
     }
 }
