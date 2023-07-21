@@ -174,6 +174,7 @@ return [
          */
         App\Domains\User\Providers\DomainServiceProvider::class,
         App\Domains\Auth\Providers\DomainServiceProvider::class,
+        App\Domains\Agenda\Providers\DomainServiceProvider::class,
     ])->toArray(),
 
     /*
