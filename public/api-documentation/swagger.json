@@ -1,20 +1,409 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Returns Services API",
+        "title": "API Agenda Swagger Documentation",
         "description": "API documentation for Returns Service App",
         "contact": {
-            "email": "sushil@stepfront.com"
+            "email": "uhelliton@uol.com.br"
         },
         "version": "1.0.0"
     },
     "servers": [
         {
-            "url": "https://localhost/api/",
+            "url": "http://localhost:8098/api/",
             "description": "Returns App API"
         }
     ],
     "paths": {
-        "/": {}
+        "/": {},
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "description": "This endpoints return a new token user authentication for use on protected endpoints",
+                "operationId": "99f4319c1c323d86d9137442ed16d514",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "device_name"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@agenda.com.br"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "type": "object",
+                                            "example": "{}"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"
+                                        },
+                                        "tokenType": {
+                                            "type": "string",
+                                            "example": "bearer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Não podemos encontrar uma conta com essas credenciais"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/agenda/events": {
+            "get": {
+                "tags": [
+                    "Agenda"
+                ],
+                "description": "",
+                "operationId": "7666f1759fdf020a57b8325955cb80ee",
+                "parameters": [
+                    {
+                        "name": "initialDate",
+                        "in": "query",
+                        "description": "ex: 2023-01-01",
+                        "required": false
+                    },
+                    {
+                        "name": "finalDate",
+                        "in": "query",
+                        "description": "ex: 2023-01-15",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "type": "number",
+                                            "example": "5"
+                                        },
+                                        "total": {
+                                            "type": "number",
+                                            "example": "5"
+                                        },
+                                        "per_page": {
+                                            "type": "number",
+                                            "example": "15"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Evento X"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "descrição"
+                                                    },
+                                                    "start_date": {
+                                                        "type": "string",
+                                                        "example": "2023-07-22"
+                                                    },
+                                                    "due_date": {
+                                                        "type": "string",
+                                                        "example": "2023-07-26"
+                                                    },
+                                                    "type_id": {
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Agenda"
+                ],
+                "description": "",
+                "operationId": "973f58d9c1a337e763858a64d62f3dfa",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "start_date",
+                                    "due_date",
+                                    "type_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Evento X"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "descrição"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "example": "2023-07-22"
+                                    },
+                                    "due_date": {
+                                        "type": "string",
+                                        "example": "2023-07-26"
+                                    },
+                                    "type_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Evento X"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "descrição"
+                                        },
+                                        "start_date": {
+                                            "type": "string",
+                                            "example": "2023-07-22"
+                                        },
+                                        "due_date": {
+                                            "type": "string",
+                                            "example": "2023-07-26"
+                                        },
+                                        "type_id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/agenda/events/{id}": {
+            "put": {
+                "tags": [
+                    "Agenda"
+                ],
+                "description": "",
+                "operationId": "6e10904900918f632a88be980b8d3d8e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "description",
+                                    "type_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Evento X"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "descrição"
+                                    },
+                                    "type_id": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Evento não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Evento não pode ser atualizado, pois o mesmo já foi finalizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Evento X"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "descrição"
+                                        },
+                                        "start_date": {
+                                            "type": "string",
+                                            "example": "2023-07-22"
+                                        },
+                                        "due_date": {
+                                            "type": "string",
+                                            "example": "2023-07-26"
+                                        },
+                                        "type_id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Agenda"
+                ],
+                "description": "",
+                "operationId": "a5c36100432610b11fcde89d7463ee96",
+                "responses": {
+                    "200": {
+                        "description": ""
+                    },
+                    "404": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Evento não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerToken": []
+                    }
+                ]
+            }
+        }
     }
 }

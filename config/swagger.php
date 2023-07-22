@@ -15,6 +15,7 @@ return [
     // Sources path to find a swagger anottation
     'sources' => [
         'app/Domains/Auth/Http/Controllers/',
+        'app/Domains/Agenda/Http/Controllers/',
         //
     ]
 

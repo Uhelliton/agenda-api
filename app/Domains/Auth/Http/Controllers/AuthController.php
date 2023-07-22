@@ -1,23 +1,23 @@
 <?php
 
 namespace App\Domains\Auth\Http\Controllers;
-use App\Domains\Auth\Http\Requests\EventStoreRequest;
 use App\Core\Http\Controllers\Controller;
+use App\Domains\Auth\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Http\JsonResponse;
 /**
  * @OA\OpenApi(
  *  @OA\Info(
- *      title="Returns Services API",
+ *     title="API Agenda Swagger Documentation",
  *      version="1.0.0",
  *      description="API documentation for Returns Service App",
  *      @OA\Contact(
- *          email="sushil@stepfront.com"
+ *          email="uhelliton@uol.com.br"
  *      )
  *  ),
  *  @OA\Server(
  *      description="Returns App API",
- *      url="https://localhost/api/"
+ *      url="http://localhost:8098/api/"
  *  ),
  *  @OA\PathItem(
  *      path="/"
@@ -27,8 +27,43 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-
-    public function authenticate(EventStoreRequest $request): \Illuminate\Http\JsonResponse
+    /**
+     * @OA\Post(
+     *    tags={"Authentication"},
+     *    description="This endpoints return a new token user authentication for use on protected endpoints",
+     *    path="/api/auth/login",
+     *  @OA\RequestBody(
+     *    @OA\MediaType(
+     *       mediaType="multipart/form-data",
+     *       @OA\Schema(
+     *       required={"email","password","device_name"},
+     *       @OA\Property(property="email", type="string", example="admin@agenda.com.br"),
+     *       @OA\Property(property="password", type="string", example="admin"),
+     *     )
+     *    ),
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="Token generated",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="user", type="object", example="{}"),
+     *       @OA\Property(property="token", type="string", example="2|MZEBxLy1zulPtND6brlf8GOPy57Q4DwYunlibXGj"),
+     *       @OA\Property(property="tokenType", type="string", example="bearer")
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=401,
+     *    description="Incorrect credentials",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Não podemos encontrar uma conta com essas credenciais"),
+     *    )
+     *  )
+     * )
+     * @extends
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function authenticate(LoginRequest $request): JsonResponse
     {
         $credentials = $request->only(['email', 'password']);
 

@@ -8,6 +8,10 @@ class Web extends RoutesFile
 {
     public function routes()
     {
-        $this->router->any('/', function () {});
+        $this->router->get('/', fn() => view('welcome'));
+
+        $this->router->get('/documentation', function () {
+            return \File::get(public_path() . '/api-documentation/index.html');
+        });
     }
 }

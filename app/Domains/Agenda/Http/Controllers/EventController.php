@@ -21,6 +21,45 @@ class EventController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     tags={"Agenda"},
+     *     description="",
+     *     path="/api/agenda/events",
+     *     security={ {"bearerToken":{}} },
+     *     @OA\Parameter(
+     *          name="initialDate",
+     *          in="query",
+     *          required=false,
+     *         description="ex: 2023-01-01",
+     *     ),
+     *     @OA\Parameter(
+     *          name="finalDate",
+     *          in="query",
+     *          required=false,
+     *          description="ex: 2023-01-15",
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="current_page", type="number", example="5"),
+     *              @OA\Property(property="total", type="number", example="5"),
+     *              @OA\Property(property="per_page", type="number", example="15"),
+     *              @OA\Property(
+     *                property="data",
+     *                type="array",
+     *                   @OA\Items(
+    *                    @OA\Property(property="id", type="integer", example="1"),
+     *                   @OA\Property(property="title", type="string", example="Evento X"),
+     *                   @OA\Property(property="description", type="string", example="descrição"),
+     *                   @OA\Property(property="start_date", type="string", example="2023-07-22"),
+     *                   @OA\Property(property="due_date", type="string", example="2023-07-26"),
+     *                   @OA\Property(property="type_id", type="integer", example="1"),
+     *                ),
+     *             ),
+     *          )
+     *     ),
+     * ),
      * @return JsonResponse
      */
     public function index(): JsonResponse
@@ -32,6 +71,36 @@ class EventController extends Controller
 
 
     /**
+     * @OA\Post(
+     *  tags={"Agenda"},
+     *  description="",
+     *  path="/api/agenda/events",
+     *  @OA\RequestBody(
+     *      @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(
+     *             required={"title","description","start_date","due_date", "type_id"},
+     *             @OA\Property(property="title", type="string", example="Evento X"),
+     *             @OA\Property(property="description", type="string", example="descrição"),
+     *             @OA\Property(property="start_date", type="string", example="2023-07-22"),
+     *             @OA\Property(property="due_date", type="string", example="2023-07-26"),
+     *             @OA\Property(property="type_id", type="integer", example="1"),
+     *          )
+     *      ),
+     *  ),
+     *  @OA\Response(
+     *    response=201,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="id", type="integer", example="1"),
+     *       @OA\Property(property="title", type="string", example="Evento X"),
+     *       @OA\Property(property="description", type="string", example="descrição"),
+     *       @OA\Property(property="start_date", type="string", example="2023-07-22"),
+     *       @OA\Property(property="due_date", type="string", example="2023-07-26"),
+     *      @OA\Property(property="type_id", type="integer", example="1"),
+     *    )
+     *  ),
+     * )
      * @param  EventStoreRequest  $request
      * @return JsonResponse
      */
@@ -50,6 +119,49 @@ class EventController extends Controller
     }
 
     /**
+     * @OA\Put(
+     *  tags={"Agenda"},
+     *  description="",
+     *  path="/api/agenda/events/{id}",
+     *  security={ {"bearerToken":{}} },
+    *   @OA\RequestBody(
+     *      @OA\MediaType(
+     *          mediaType="application/json",
+     *          @OA\Schema(
+     *             required={"title","description", "type_id"},
+     *             @OA\Property(property="title", type="string", example="Evento X"),
+     *             @OA\Property(property="description", type="string", example="descrição"),
+     *             @OA\Property(property="type_id", type="integer", example="1"),
+     *          )
+     *      ),
+     *  ),
+     *  @OA\Response(
+     *    response=404,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Evento não encontrado"),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=403,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Evento não pode ser atualizado, pois o mesmo já foi finalizado"),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="id", type="integer", example="1"),
+     *       @OA\Property(property="title", type="string", example="Evento X"),
+     *       @OA\Property(property="description", type="string", example="descrição"),
+     *       @OA\Property(property="start_date", type="string", example="2023-07-22"),
+     *       @OA\Property(property="due_date", type="string", example="2023-07-26"),
+     *      @OA\Property(property="type_id", type="integer", example="1"),
+     *    )
+     *  ),
+     * )
      * @param EventUpdateRequest $request
      * @param int $id
      * @return mixed
@@ -74,6 +186,23 @@ class EventController extends Controller
     }
 
     /**
+     * @OA\Delete(
+     *  tags={"Agenda"},
+     *  description="",
+     *  path="/api/agenda/events/{id}",
+     *  security={ {"bearerToken":{}} },
+     *  @OA\Response(
+     *    response=200,
+     *    description="",
+     *  ),
+     *  @OA\Response(
+     *    response=404,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Evento não encontrado"),
+     *    )
+     *  ),
+     * )
      * @param int $id
      * @return JsonResponse
      */
