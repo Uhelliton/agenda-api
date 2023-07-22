@@ -143,4 +143,49 @@ class EventE2ETest extends TestCase
         $response = $this->putJson("api/agenda/events/{$eventId}", $attributesData);
         $response->assertStatus(404);
     }
+
+    /** @test ***/
+    public function it_should_return_404_on_delete_event_if_no_exist()
+    {
+        // simulate auth user
+        Sanctum::actingAs(User::factory()->create());
+
+        $eventId = 1;
+
+        $this->eventRepository
+            ->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn();
+
+        $response = $this->deleteJson("api/agenda/events/{$eventId}");
+        $response->assertStatus(404);
+    }
+
+    /** @test ***/
+    public function it_should_delete_event()
+    {
+        // simulate auth user
+        Sanctum::actingAs(User::factory()->create());
+
+        $eventId = 1;
+
+        $this->eventRepository
+            ->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake());
+
+
+        $this->eventRepository
+            ->shouldReceive('delete')
+            ->once()
+            ->with($eventId)
+            ->andReturn(true);
+
+        $response = $this->deleteJson("api/agenda/events/{$eventId}");
+        $response->assertStatus(200);
+        $response->assertOk();
+
+    }
 }
