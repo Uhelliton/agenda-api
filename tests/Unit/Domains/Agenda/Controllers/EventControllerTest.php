@@ -107,5 +107,49 @@ class EventControllerTest extends TestCase
         $controller->store($request);
     }
 
+    public function test_update_with_event_notfound(): void
+    {
+        $request = new EventUpdateRequest();
+        $eventId = 1;
+
+        $request->request->add([
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'type_id' => 1
+        ]);
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(null);
+
+        $this->expectException(HttpResponseException::class);
+        $controller->update($request, $eventId);
+    }
+
+    public function test_update_with_event_finalization(): void
+    {
+        $request = new EventUpdateRequest();
+        $eventId = 1;
+
+        $request->request->add([
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'type_id' => 1
+        ]);
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake(Event::STATUS_FINALIZATION));
+
+        $this->expectException(HttpResponseException::class);
+        $controller->update($request, $eventId);
+    }
+
 
 }
