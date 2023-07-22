@@ -151,5 +151,34 @@ class EventControllerTest extends TestCase
         $controller->update($request, $eventId);
     }
 
+    public function test_update_with_success(): void
+    {
+        $request = new EventUpdateRequest();
+        $eventId = 1;
 
+        $request->request->add([
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'type_id' => 1
+        ]);
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake(Event::STATUS_OPEN));
+
+        $this->eventRepository->shouldReceive('update')
+            ->once()
+            ->with($request->only([
+                'title' => 'evento titulo',
+                'description'=> 'evento descrição',
+                'type_id' => 1
+            ]), $eventId)
+            ->andReturn(EventMocker::getEventFake(Event::STATUS_OPEN));
+
+        $response = $controller->update($request, $eventId);
+        $this->assertEquals(200, $response->status());
+    }
 }
