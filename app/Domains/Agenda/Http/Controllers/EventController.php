@@ -4,7 +4,7 @@ namespace App\Domains\Agenda\Http\Controllers;
 
 use App\Domains\Agenda\Http\Requests\EventStoreRequest;
 use App\Domains\Agenda\Http\Requests\EventUpdateRequest;
-use App\Domains\Agenda\Repositories\Interfaces\EventRepositoryInterface;
+use App\Domains\Agenda\Repositories\Interfaces\EventRepositoryInterface as EventRepository;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 
@@ -13,9 +13,9 @@ use App\Domains\Agenda\Models\Event;
 
 class EventController extends Controller
 {
-    protected EventRepositoryInterface $eventRepository;
+    protected EventRepository $eventRepository;
 
-    public function __construct(EventRepositoryInterface $eventRepository)
+    public function __construct(EventRepository $eventRepository)
     {
         $this->eventRepository = $eventRepository;
     }
@@ -25,7 +25,7 @@ class EventController extends Controller
      */
     public function index(): JsonResponse
     {
-        $events = $this->eventRepository->getAll();
+        $events = $this->eventRepository->paginate();
 
         return response()->json($events);
     }

@@ -23,7 +23,7 @@ class EventRepository implements EventRepositoryInterface
     /**
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function getAll()
+    public function paginate()
     {
         return $this->model
             ->where(function ($query) {
