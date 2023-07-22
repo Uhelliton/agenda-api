@@ -89,5 +89,23 @@ class EventControllerTest extends TestCase
         $this->assertEquals(201, $response->status());
     }
 
+    public function test_store_with_start_date_exist_expect_exception(): void
+    {
+        $request = new EventStoreRequest();
+        $request->request->add([
+            'start_date' => '2023-07-22'
+        ]);
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findByStartDate')
+            ->once()
+            ->with('2023-07-22')
+            ->andReturn(EventMocker::getEventFake());
+
+        $this->expectException(HttpResponseException::class);
+        $controller->store($request);
+    }
+
 
 }
