@@ -44,4 +44,24 @@ class EventControllerTest extends TestCase
         $response = $controller->index();
         $this->assertEquals(200, $response->status());
     }
+
+    public function test_index_return_with_data(): void
+    {
+        $events = EventMocker::eventsPaginate();
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('paginate')
+            ->once()
+            ->andReturn($events);
+
+        $response = $controller->index();
+        $eventData = json_decode($response->content(), true);
+
+        $this->assertCount(2, $eventData['data']);
+        $this->assertIsArray($eventData['data']);
+    }
+
+
+
 }
