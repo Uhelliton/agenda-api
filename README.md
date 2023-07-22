@@ -4,8 +4,12 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-
+<p align="center">
 http://localhost:8098/api
+</p>
+<p align="center">
+<a href="http://localhost:8098/documentation">API Documentação</a>
+</p>
 
 ### ⏳ Ponto de partida
 
@@ -34,9 +38,15 @@ php artisan db:seed --class=UserSeeder
 php artisan db:seed --class=EventTypeSeeder
 ```
 
-php artisan swagger
 
-http://localhost:8098/api-documentation/
+
+### 
+**Documentação Swagger**
+```bash
+# atualiza a documentação se houver mudanças
+php artisan swagger
+```
+
 
 ### 
 **Sessão na api com usuário genérico**
