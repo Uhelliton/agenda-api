@@ -63,5 +63,31 @@ class EventControllerTest extends TestCase
     }
 
 
+    public function test_store_with_valid_request(): void
+    {
+        $request = new EventStoreRequest();
+        $request->request->add([
+            'start_date' => '2023-07-22',
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'due_date' => '2023-07-26',
+            'type_id' => 1
+        ]);
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findByStartDate')
+            ->once()
+            ->with('2023-07-22')
+            ->andReturn(null);
+
+        $this->eventRepository->shouldReceive('create')
+            ->once()
+            ->andReturn(EventMocker::getEventFake());
+
+        $response = $controller->store($request);
+        $this->assertEquals(201, $response->status());
+    }
+
 
 }
