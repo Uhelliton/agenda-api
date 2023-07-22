@@ -195,4 +195,25 @@ class EventControllerTest extends TestCase
         $this->expectException(HttpResponseException::class);
         $controller->destroy($eventId);
     }
+
+    public function test_delete_with_success(): void
+    {
+        $eventId = 1;
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake());
+
+        $this->eventRepository->shouldReceive('delete')
+            ->once()
+            ->with($eventId)
+            ->andReturn(true);
+
+        $response = $controller->destroy($eventId);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertTrue((bool) $response->content());
+    }
 }
