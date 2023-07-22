@@ -81,4 +81,39 @@ class EventE2ETest extends TestCase
         $response = $this->postJson('api/agenda/events', $attributesData);
         $response->assertStatus(201);
     }
+
+
+
+    /** @test ***/
+    public function it_should_update_event()
+    {
+        // simulate auth user
+        Sanctum::actingAs(User::factory()->create());
+
+        $request = new EventStoreRequest();
+
+        $eventId = 1;
+        $attributesData = [
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'type_id'   => 1,
+        ];
+
+        $request->request->add($attributesData);
+
+        $this->eventRepository
+            ->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake());
+
+        $this->eventRepository
+            ->shouldReceive('update')
+            ->once()
+            ->with($attributesData, $eventId)
+            ->andReturn($attributesData);
+
+        $response = $this->putJson("api/agenda/events/{$eventId}", $attributesData);
+        $response->assertStatus(200);
+    }
 }
