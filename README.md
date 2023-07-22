@@ -1,14 +1,14 @@
-<p align="center"><a href="" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="https://laravel.com/" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version">
+<img src="https://img.shields.io/packagist/l/laravel/framework" alt="License">
 </p>
 <p align="center">
 http://localhost:8098/api
 </p>
 <p align="center">
-<a href="http://localhost:8098/documentation">API Documentação</a>
+<a href="http://localhost:8098/documentation" target="_blank">API Documentação</a>
 </p>
 
 ### ⏳ Ponto de partida
