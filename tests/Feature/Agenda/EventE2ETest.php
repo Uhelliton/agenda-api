@@ -5,7 +5,6 @@ namespace Tests\Feature\Agenda;
 use App\Domains\Agenda\Http\Requests\EventStoreRequest;
 use App\Domains\Agenda\Http\Requests\EventUpdateRequest;
 use App\Domains\User\Models\User;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Laravel\Sanctum\Sanctum;
 use Tests\Mockers\EventMocker;
 use Tests\TestCase;
@@ -90,7 +89,7 @@ class EventE2ETest extends TestCase
         // simulate auth user
         Sanctum::actingAs(User::factory()->create());
 
-        $request = new EventStoreRequest();
+        $request = new EventUpdateRequest();
 
         $eventId = 1;
         $attributesData = [
