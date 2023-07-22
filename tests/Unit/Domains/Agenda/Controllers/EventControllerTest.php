@@ -181,4 +181,18 @@ class EventControllerTest extends TestCase
         $response = $controller->update($request, $eventId);
         $this->assertEquals(200, $response->status());
     }
+
+    public function test_delete_with_event_notfound(): void
+    {
+        $eventId = 1;
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(null);
+
+        $this->expectException(HttpResponseException::class);
+        $controller->destroy($eventId);
+    }
 }
