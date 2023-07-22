@@ -4,15 +4,12 @@ namespace Tests\Feature\Agenda;
 
 use App\Domains\Agenda\Http\Requests\EventStoreRequest;
 use App\Domains\Agenda\Http\Requests\EventUpdateRequest;
-use App\Domains\Agenda\Models\Event;
 use App\Domains\User\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Request;
 use Laravel\Sanctum\Sanctum;
 use Tests\Mockers\EventMocker;
 use Tests\TestCase;
 use Mockery;
-use App\Domains\Agenda\Http\Controllers\EventController;
 
 class EventE2ETest extends TestCase
 {
@@ -34,7 +31,8 @@ class EventE2ETest extends TestCase
         parent::tearDown();
     }
 
-    public function testIndex()
+    /** @test ***/
+    public function it_should_all_events()
     {
         // simulate auth user
         Sanctum::actingAs(User::factory()->create());
@@ -48,5 +46,39 @@ class EventE2ETest extends TestCase
         $response->assertStatus(200);
         $response->assertOk();
         $response->assertJson(EventMocker::eventsPaginate());
+    }
+
+    /** @test ***/
+    public function it_should_create_event()
+    {
+        // simulate auth user
+        Sanctum::actingAs(User::factory()->create());
+
+        $request = new EventStoreRequest();
+
+        $attributesData = [
+            'start_date' => '2023-07-24',
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'due_date' => '2023-07-26',
+            'type_id'   => 1,
+        ];
+
+        $request->request->add($attributesData);
+
+        $this->eventRepository
+            ->shouldReceive('findByStartDate')
+            ->once()
+            ->with('2023-07-24')
+            ->andReturn();
+
+        $this->eventRepository
+            ->shouldReceive('create')
+            ->once()
+            ->with($attributesData)
+            ->andReturn($attributesData);
+
+        $response = $this->postJson('api/agenda/events', $attributesData);
+        $response->assertStatus(201);
     }
 }
