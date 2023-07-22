@@ -116,4 +116,31 @@ class EventE2ETest extends TestCase
         $response = $this->putJson("api/agenda/events/{$eventId}", $attributesData);
         $response->assertStatus(200);
     }
+
+    /** @test ***/
+    public function it_should_return_404_on_update_event_if_no_exist()
+    {
+        // simulate auth user
+        Sanctum::actingAs(User::factory()->create());
+
+        $request = new EventStoreRequest();
+
+        $eventId = 1;
+        $attributesData = [
+            'title' => 'evento titulo',
+            'description'=> 'evento descrição',
+            'type_id'   => 1,
+        ];
+
+        $request->request->add($attributesData);
+
+        $this->eventRepository
+            ->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn();
+
+        $response = $this->putJson("api/agenda/events/{$eventId}", $attributesData);
+        $response->assertStatus(404);
+    }
 }
