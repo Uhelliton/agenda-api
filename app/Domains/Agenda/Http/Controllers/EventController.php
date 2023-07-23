@@ -25,7 +25,7 @@ class EventController extends Controller
      *     tags={"Agenda"},
      *     description="",
      *     path="/api/agenda/events",
-     *     security={ {"bearerToken":{}} },
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *          name="initialDate",
      *          in="query",
@@ -38,6 +38,14 @@ class EventController extends Controller
      *          required=false,
      *          description="ex: 2023-01-15",
      *     ),
+     *    @OA\SecurityScheme(
+     *      securityScheme="bearerAuth",
+     *      in="header",
+     *      name="bearerAuth",
+     *      type="http",
+     *      scheme="bearer",
+     *      bearerFormat="JWT",
+     * ),
      *     @OA\Response(
      *          response=200,
      *          description="",
@@ -75,6 +83,7 @@ class EventController extends Controller
      *  tags={"Agenda"},
      *  description="",
      *  path="/api/agenda/events",
+     *  security={{"sanctum":{}}},
      *  @OA\RequestBody(
      *      @OA\MediaType(
      *          mediaType="application/json",
@@ -123,7 +132,16 @@ class EventController extends Controller
      *  tags={"Agenda"},
      *  description="",
      *  path="/api/agenda/events/{id}",
-     *  security={ {"bearerToken":{}} },
+     *  security={{"sanctum":{}}},
+     * @OA\Parameter(
+     *    name="id",
+     *    in="path",
+     *    required=true,
+     *    description="",
+     *    @OA\Schema(
+     *       type="string"
+     *    ),
+     * ),
     *   @OA\RequestBody(
      *      @OA\MediaType(
      *          mediaType="application/json",
@@ -190,7 +208,16 @@ class EventController extends Controller
      *  tags={"Agenda"},
      *  description="",
      *  path="/api/agenda/events/{id}",
-     *  security={ {"bearerToken":{}} },
+     *  security={{"sanctum":{}}},
+     * @OA\Parameter(
+     *    name="id",
+     *    in="path",
+     *    required=true,
+     *    description="",
+     *    @OA\Schema(
+     *       type="string"
+     *    ),
+     * ),
      *  @OA\Response(
      *    response=200,
      *    description="",

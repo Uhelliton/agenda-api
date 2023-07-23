@@ -10,7 +10,7 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8098/api/",
+            "url": "http://localhost:8098/",
             "description": "Returns App API"
         }
     ],
@@ -25,7 +25,7 @@
                 "operationId": "99f4319c1c323d86d9137442ed16d514",
                 "requestBody": {
                     "content": {
-                        "multipart/form-data": {
+                        "application/json": {
                             "schema": {
                                 "required": [
                                     "email",
@@ -172,7 +172,7 @@
                 },
                 "security": [
                     {
-                        "bearerToken": []
+                        "sanctum": []
                     }
                 ]
             },
@@ -257,7 +257,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/agenda/events/{id}": {
@@ -267,6 +272,17 @@
                 ],
                 "description": "",
                 "operationId": "6e10904900918f632a88be980b8d3d8e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -367,7 +383,7 @@
                 },
                 "security": [
                     {
-                        "bearerToken": []
+                        "sanctum": []
                     }
                 ]
             },
@@ -377,12 +393,23 @@
                 ],
                 "description": "",
                 "operationId": "a5c36100432610b11fcde89d7463ee96",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": ""
                     },
                     "404": {
-                        "description": "Unauthenticated",
+                        "description": "",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -400,9 +427,18 @@
                 },
                 "security": [
                     {
-                        "bearerToken": []
+                        "sanctum": []
                     }
                 ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
             }
         }
     }
