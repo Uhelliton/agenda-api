@@ -6,6 +6,12 @@ use App\Domains\Auth\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 /**
+ * @OA\SecurityScheme(
+ *     securityScheme="sanctum",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
+ * ),
  * @OA\OpenApi(
  *  @OA\Info(
  *     title="API Agenda Swagger Documentation",
@@ -17,7 +23,7 @@ use Illuminate\Http\JsonResponse;
  *  ),
  *  @OA\Server(
  *      description="Returns App API",
- *      url="http://localhost:8098/api/"
+ *      url="http://localhost:8098/"
  *  ),
  *  @OA\PathItem(
  *      path="/"
@@ -34,7 +40,7 @@ class AuthController extends Controller
      *    path="/api/auth/login",
      *  @OA\RequestBody(
      *    @OA\MediaType(
-     *       mediaType="multipart/form-data",
+     *       mediaType="application/json",
      *       @OA\Schema(
      *       required={"email","password","device_name"},
      *       @OA\Property(property="email", type="string", example="admin@agenda.com.br"),
