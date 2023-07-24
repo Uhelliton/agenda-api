@@ -11,6 +11,7 @@ class Api extends RoutesFile
     {
         $this->router->middleware(['auth:sanctum'])->group(function () {
             $this->router->apiResource('/agenda/events', 'EventController');
+            $this->router->patch('/agenda/events/{id}/done', 'EventController@done');
         });
     }
 }
