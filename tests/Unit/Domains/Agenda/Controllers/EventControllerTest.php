@@ -216,4 +216,46 @@ class EventControllerTest extends TestCase
         $this->assertEquals(200, $response->status());
         $this->assertTrue((bool) $response->content());
     }
+
+    public function test_done_event_with_status_finished_return_exception(): void
+    {
+        $eventId = 1;
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake(Event::STATUS_FINALIZATION));
+
+        $this->expectException(HttpResponseException::class);
+        $controller->done($eventId);
+    }
+
+    public function test_done_event_with_success(): void
+    {
+        $eventId = 1;
+        $attributesData = [
+            'finalization_at' => now()->format('Y-m-d'),
+            'status' => Event::STATUS_FINALIZATION,
+        ];
+
+        $controller = new EventController($this->eventRepository);
+
+        $this->eventRepository->shouldReceive('findById')
+            ->once()
+            ->with($eventId)
+            ->andReturn(EventMocker::getEventFake(Event::STATUS_OPEN));
+
+        $this->eventRepository->shouldReceive('update')
+        ->once()
+        ->with($attributesData, $eventId)
+        ->andReturn(EventMocker::getEventFake(Event::STATUS_FINALIZATION));
+
+        $response = $controller->done($eventId);
+        $responseContent = json_decode($response->getContent(), true);
+
+        $this->assertEquals(200, $response->status());
+        $this->assertEquals($eventId, $responseContent['id']);
+        $this->assertEquals(Event::STATUS_FINALIZATION, $responseContent['status']);
+    }
 }

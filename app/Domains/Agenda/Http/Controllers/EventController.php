@@ -204,6 +204,29 @@ class EventController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function done(int $id): JsonResponse
+    {
+        $event = $this->eventRepository->findById($id);
+
+        if ($event->status === Event::STATUS_FINALIZATION) {
+            throw new HttpResponseException(response()->json([
+                'message' => 'Este evento já foi finalizado!',
+            ], 403));
+        }
+
+        $attributes = [
+            'finalization_at' => now()->format('Y-m-d'),
+            'status' => Event::STATUS_FINALIZATION,
+        ];
+        $eventUpdate = $this->eventRepository->update($attributes, $id);
+
+        return response()->json($eventUpdate);
+    }
+
+    /**
      * @OA\Delete(
      *  tags={"Agenda"},
      *  description="",
