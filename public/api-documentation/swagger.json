@@ -96,7 +96,7 @@
                 "tags": [
                     "Agenda"
                 ],
-                "description": "",
+                "description": "listagem de eventos",
                 "operationId": "7666f1759fdf020a57b8325955cb80ee",
                 "parameters": [
                     {
@@ -180,7 +180,7 @@
                 "tags": [
                     "Agenda"
                 ],
-                "description": "",
+                "description": "registra um novo evento",
                 "operationId": "973f58d9c1a337e763858a64d62f3dfa",
                 "requestBody": {
                     "content": {
@@ -270,7 +270,7 @@
                 "tags": [
                     "Agenda"
                 ],
-                "description": "",
+                "description": "atualiza um evento",
                 "operationId": "6e10904900918f632a88be980b8d3d8e",
                 "parameters": [
                     {
@@ -391,7 +391,7 @@
                 "tags": [
                     "Agenda"
                 ],
-                "description": "",
+                "description": "remove um evento",
                 "operationId": "a5c36100432610b11fcde89d7463ee96",
                 "parameters": [
                     {
@@ -417,6 +417,85 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Evento não encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/agenda/events/{id}/done": {
+            "patch": {
+                "tags": [
+                    "Agenda"
+                ],
+                "description": "Finaliza um evento",
+                "operationId": "424e3b5886f5bcd73b28b0e3e332b513",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "403": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Este evento já foi finalizado!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "title": {
+                                            "type": "string",
+                                            "example": "Evento X"
+                                        },
+                                        "description": {
+                                            "type": "string",
+                                            "example": "descrição"
+                                        },
+                                        "start_date": {
+                                            "type": "string",
+                                            "example": "2023-07-22"
+                                        },
+                                        "due_date": {
+                                            "type": "string",
+                                            "example": "2023-07-26"
+                                        },
+                                        "type_id": {
+                                            "type": "integer",
+                                            "example": "1"
                                         }
                                     },
                                     "type": "object"

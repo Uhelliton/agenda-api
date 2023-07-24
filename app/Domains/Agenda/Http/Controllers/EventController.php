@@ -23,7 +23,7 @@ class EventController extends Controller
     /**
      * @OA\Get(
      *     tags={"Agenda"},
-     *     description="",
+     *     description="listagem de eventos",
      *     path="/api/agenda/events",
      *     security={{"sanctum":{}}},
      *     @OA\Parameter(
@@ -81,7 +81,7 @@ class EventController extends Controller
     /**
      * @OA\Post(
      *  tags={"Agenda"},
-     *  description="",
+     *  description="registra um novo evento",
      *  path="/api/agenda/events",
      *  security={{"sanctum":{}}},
      *  @OA\RequestBody(
@@ -130,7 +130,7 @@ class EventController extends Controller
     /**
      * @OA\Put(
      *  tags={"Agenda"},
-     *  description="",
+     *  description="atualiza um evento",
      *  path="/api/agenda/events/{id}",
      *  security={{"sanctum":{}}},
      * @OA\Parameter(
@@ -204,6 +204,40 @@ class EventController extends Controller
     }
 
     /**
+     * @OA\Patch(
+     *  tags={"Agenda"},
+     *  description="Finaliza um evento",
+     *  path="/api/agenda/events/{id}/done",
+     *  security={{"sanctum":{}}},
+     * @OA\Parameter(
+     *    name="id",
+     *    in="path",
+     *    required=true,
+     *    description="",
+     *    @OA\Schema(
+     *       type="string"
+     *    ),
+     * ),
+     *  @OA\Response(
+     *    response=403,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="message", type="string", example="Este evento já foi finalizado!"),
+     *    )
+     *  ),
+     *  @OA\Response(
+     *    response=200,
+     *    description="",
+     *    @OA\JsonContent(
+     *       @OA\Property(property="id", type="integer", example="1"),
+     *       @OA\Property(property="title", type="string", example="Evento X"),
+     *       @OA\Property(property="description", type="string", example="descrição"),
+     *       @OA\Property(property="start_date", type="string", example="2023-07-22"),
+     *       @OA\Property(property="due_date", type="string", example="2023-07-26"),
+     *      @OA\Property(property="type_id", type="integer", example="1"),
+     *    )
+     *  ),
+     * )
      * @param int $id
      * @return JsonResponse
      */
@@ -229,7 +263,7 @@ class EventController extends Controller
     /**
      * @OA\Delete(
      *  tags={"Agenda"},
-     *  description="",
+     *  description="remove um evento",
      *  path="/api/agenda/events/{id}",
      *  security={{"sanctum":{}}},
      * @OA\Parameter(
